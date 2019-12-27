@@ -1,4 +1,4 @@
-# Prosemirror Svelte: [Demo](http://prosemirror-svelte.surge.sh/)
+# Prosemirror Svelte
  [Svelte](https://svelte.dev) bindings for the [Prosemirror editor](https://prosemirror.net/).
 
 The key motivation of this component is to provide a gentle wrapper around prosemirror - while trying to embrace its 
