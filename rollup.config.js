@@ -8,12 +8,12 @@ import { terser } from 'rollup-plugin-terser';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	input: 'example/src/main.js',
+	input: 'examples/src/main.js',
 	output: {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'example/public/build/bundle.js'
+		file: 'examples/public/build/bundle.js'
 	},
 	plugins: [
 		// css_only({output: 'example/public/editor.css'}),
@@ -24,7 +24,7 @@ export default {
 			// we'll extract any component CSS out into
 			// a separate file — better for performance
 			css: css => {
-				css.write('example/public/build/bundle.css');
+				css.write('examples/public/build/bundle.css');
 			}
 		}),
 		
@@ -45,7 +45,7 @@ export default {
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
-		!production && livereload('example/public'),
+		!production && livereload('examples/public'),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify

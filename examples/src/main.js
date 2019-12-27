@@ -1,7 +1,9 @@
 import App from './App.svelte';
 
+const root = document.querySelector("#root");
+
 const app = new App({
-  target: document.body,
+  target: root,
   props: {}
 });
 

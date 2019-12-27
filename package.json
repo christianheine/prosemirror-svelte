@@ -14,7 +14,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv example/public",
+    "start": "sirv examples/public",
     "test": "echo \"No test specified (yet)\""
   },
   "repository": "https://github.com/christianheine/prosemirror-svelte",
@@ -37,6 +37,8 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-node-resolve": "^6.0.0",
+    "prosemirror-example-setup": "^1.1.2",
+    "prosemirror-schema-basic": "^1.1.2",
     "rollup": "^1.20.0",
     "rollup-plugin-css-only": "^2.0.0",
     "rollup-plugin-livereload": "^1.0.0",

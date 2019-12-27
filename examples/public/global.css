@@ -8,7 +8,6 @@ body {
   color: rgb(68, 68, 68);
   margin: 0;
   padding: 8px;
-  font-size: 90%;
   box-sizing: border-box;
   font-family: "Overpass Light", sans-serif;
   font-weight: lighter;
@@ -22,11 +21,39 @@ h1 {
 h2 {
   font-size: 2em;
   font-weight: normal;
-  margin: 0.5em 0;
+  margin: 0;
+}
+
+h3 {
+  font-size: 1.3em;
+  font-weight: normal;
+  margin: 2em 0 1em;
+  text-transform: uppercase;
+}
+
+h4 {
+  font-size: 1.25em;
+  font-weight: bold;
+  margin: 0 0 1em;
+  border-bottom: 1px solid rgb(255, 62, 0);
+}
+
+p {
+  margin: 1rem 0;
+}
+
+p:first-child {
+  margin-top: 0;
+  margin-block-start: 0;
+}
+
+p:last-child {
+  margin-bottom: 0;
+  margin-block-end: 0;
 }
 
 a {
-  color: rgb(0, 100, 200);
+  color: rgb(255, 62, 0);
   text-decoration: none;
 }
 
@@ -35,7 +62,6 @@ a:hover {
 }
 
 a:visited {
-  color: rgb(0, 80, 160);
 }
 
 label {
@@ -83,18 +109,4 @@ button:hover {
 
 button:focus {
   color: white;
-}
-
-p {
-  margin: .5rem 0;
-}
-
-p:first-child {
-  margin-top: 0;
-  margin-block-start: 0;
-}
-
-p:last-child {
-  margin-bottom: 0;
-  margin-block-end: 0;
 }

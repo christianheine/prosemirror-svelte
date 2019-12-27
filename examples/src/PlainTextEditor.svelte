@@ -34,28 +34,23 @@
 
 </script>
 
-<main>
+<h3>Plain text editor example</h3>
 
-  <img src="https://svelte.dev/svelte-logo-horizontal.svg" alt="Svelte logo">
-  <h2>Prosemirror editor</h2>
+<ProsemirrorEditor
+  placeholder="Text goes here"
+  {editorState}
+  bind:editor={editor}
+  on:change={handleChange}
+  debounceChangeEventsInterval={0}/>
 
-  <ProsemirrorEditor
-    placeholder="Text goes here"
-    {editorState}
-    bind:editor={editor}
-    on:change={handleChange}
-    debounceChangeEventsInterval={0}/>
+<div class="controls">
+  <button on:click={clearEditor}>Clear</button>
+  <button on:click={resetEditor}>Reset text</button>
+  <button on:click={selectAllText}>Select all</button>
+  <button on:click={focusEditor}>Focus</button>
+</div>
 
-  <div class="controls">
-    <button on:click={clearEditor}>Clear</button>
-    <button on:click={resetEditor}>Reset text</button>
-    <button on:click={selectAllText}>Select all</button>
-    <button on:click={focusEditor}>Focus</button>
-  </div>
-
-  <div class="mirror">Current plain text content of the editor: "{textContent}"</div>
-
-</main>
+<div class="mirror">Current plain text content of the editor: "{textContent}"</div>
 
 <style>
 

@@ -3,6 +3,15 @@
 
 The key motivation of this component is to provide a gentle wrapper around prosemirror - while trying to embrace its 
 core concept (such as the EditorState and Transactions). 
+
+Feel free to use the (very basic) helpers to create your schema provided by this package. 
+They will get you started with a working single-line or multi-line editor (but without rich-text format support). 
+For that you will need to implement your custom schema and create your own editor state (which is not that hard). You may 
+also use the schema provided by prosemirror-basic-schema, of course.
+
+If you wonder "Why should I want an editor which does not process rich text?": 
+Well, try to implement custom tag formatting or a hashtag editor in a basic HTML input
+or textarea and them come back to this page.   
  
 ## Installation
 
@@ -19,16 +28,21 @@ npm install --save prosemirror-svelte
 
 ```html
 <script>
-  import ProsemirrorEditor from 'prosemirror-svelte'; // import the core component
-  import { createSingleLineEditor, getPlainText } from 'prosemirror-svelte/helpers'; // import some helpers to work with prosemirror state 
+   // import the core component
+  import ProsemirrorEditor from 'prosemirror-svelte';
+  // import some helpers to work with prosemirror state
+  import { createSingleLineEditor, getPlainText } from 'prosemirror-svelte/helpers';  
 
-  let editorState = createSingleLineEditor('Hello world!'); // create the initial editor state
+  // create the initial editor state
+  let editorState = createSingleLineEditor('Hello world!'); 
 
   function handleChange(event) {
-    editorState = event.detail.editorState; // handle the change event; event.detail.editorState contains the new state
+    // get the new editor state from event.detail
+    editorState = event.detail.editorState;
   }
 
-  $: console.log(getPlainText(editorState)); // log the text content of the editor state, just for fun
+  // log the text content of the editor state, just for fun
+  $: console.log(getPlainText(editorState)); 
 
 </script>
 
