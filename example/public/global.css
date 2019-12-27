@@ -1,0 +1,100 @@
+html, body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  color: rgb(68, 68, 68);
+  margin: 0;
+  padding: 8px;
+  font-size: 90%;
+  box-sizing: border-box;
+  font-family: "Overpass Light", sans-serif;
+  font-weight: lighter;
+}
+
+h1 {
+  font-size: 4em;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: 2em;
+  font-weight: normal;
+  margin: 0.5em 0;
+}
+
+a {
+  color: rgb(0, 100, 200);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:visited {
+  color: rgb(0, 80, 160);
+}
+
+label {
+  display: block;
+}
+
+input, button, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0.4em;
+  margin: 0 0 0.5em 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+input:disabled {
+  color: #ccc;
+}
+
+input[type="range"] {
+  height: 0;
+}
+
+button {
+  color: rgba(255, 255, 255, .7);
+  background-color: rgb(255, 62, 0);
+  outline: none;
+  border: none;
+  border-radius: .25em;
+  padding: .25em .5em;
+}
+
+button:disabled {
+  color: #999;
+}
+
+button:not(:disabled):active {
+}
+
+button:hover {
+  color: white;
+  cursor: pointer;
+}
+
+button:focus {
+  color: white;
+}
+
+p {
+  margin: .5rem 0;
+}
+
+p:first-child {
+  margin-top: 0;
+  margin-block-start: 0;
+}
+
+p:last-child {
+  margin-bottom: 0;
+  margin-block-end: 0;
+}
