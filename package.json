@@ -4,14 +4,23 @@
   "description": "Svelte bindings for the ProseMirror editor",
   "author": "Christian Heine",
   "license": "MIT",
-  "main": "src/ProsemirrorEditor.svelte",
-  "svelte": "src/ProsemirrorEditor.svelte",
+  "main": "ProsemirrorEditor.svelte",
+  "svelte": "ProsemirrorEditor.svelte",
+  "files": [
+    "helpers/*",
+    "ProsemirrorEditor.svelte",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv example/public"
+    "start": "sirv example/public",
+    "test": "echo \"No test specified (yet)\""
   },
   "repository": "https://github.com/christianheine/prosemirror-svelte",
+  "bugs": {
+    "url": "https://github.com/christianheine/prosemirror-svelte/issues"
+  },
   "keywords": [
     "svelte",
     "prosemirror",

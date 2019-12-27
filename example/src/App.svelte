@@ -1,6 +1,6 @@
 <script>
-  import ProsemirrorEditor from '../../src/ProsemirrorEditor.svelte';
-  import { createMultiLineEditor, getPlainText, clear, selectAll } from "../../src/helpers";
+  import ProsemirrorEditor from '../../ProsemirrorEditor.svelte';
+  import { createMultiLineEditor, getPlainText, clear, selectAll } from "../../helpers";
 
   const getEditorState = () => createMultiLineEditor('Go ahead. Edit me!');
 
