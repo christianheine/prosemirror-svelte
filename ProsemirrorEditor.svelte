@@ -115,8 +115,7 @@
 <style>
 
   :global(body) {
-    --ui-color-baseline: #252525;
-    --ui-color-lighter: #CCCCCC;
+    --ui-color-placeholder: #AAAAAA;
   }
 
   :global(.ProseMirror) {
@@ -185,8 +184,7 @@
     position: absolute;
     content: attr(data-placeholder);
     pointer-events: none;
-    color: var(--ui-color-lighter);
+    color: var(--ui-color-placeholder);
   }
-
 
 </style>
