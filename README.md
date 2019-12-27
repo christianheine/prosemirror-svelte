@@ -87,5 +87,17 @@ To support the plugin system provided by Prosemirror, the component also listens
 ## Example
 The example app which is included in the repository can be also be found here: http://prosemirror-svelte.surge.sh  
 
+## Helper methods
+- split [(EditorState) -> EditorState]: splits the text at the current selection. If the selection is not collapsed, it will be split around it.
+- getPlainText  [(EditorState) -> String]: returns the plain text content of the given editor state.
+- selectText [(editorState: EditorState, from: number, to: number) => EditorState]: returns a new editor state with the the selection around from and to.
+- clear [(EditorState) -> EditorState]: returns a new editor state where all content was removed.
+- selectAll [(EditorState) -> EditorState]: returns a new editor state with all text selected.
+- deleteSelection [(EditorState) -> EditorState]: returns a new editor state where the selection was deleted.
+- replaceTextAtPosition [(editorState, from, to, newText, setSelection = false) -> EditorState]: returns a new editor state where the text between "from" and "to" was replaced by a new one, optionally setting a selection for that inserted text.
+
+- createSingleLineEditor [(content = "", plugins = []) -> EditorState]: Creates an editor state with a single-line schema and optional text content
+- createMultiLineEditor [(content = "", plugins = []) -> EditorState]: Creates an editor state with a multi-line schema and optional text content
+
 ## License
 [MIT](LICENSE)
