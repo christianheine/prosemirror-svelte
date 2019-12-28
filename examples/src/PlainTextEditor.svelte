@@ -36,19 +36,19 @@
 
 <h3>Plain text editor example</h3>
 
-<ProsemirrorEditor
-  placeholder="Text goes here"
-  {editorState}
-  bind:editor={editor}
-  on:change={handleChange}
-  debounceChangeEventsInterval={0}/>
-
 <div class="controls">
   <button on:click={clearEditor}>Clear</button>
   <button on:click={resetEditor}>Reset text</button>
   <button on:click={selectAllText}>Select all</button>
   <button on:click={focusEditor}>Focus</button>
 </div>
+
+<ProsemirrorEditor
+  placeholder="Text goes here"
+  {editorState}
+  bind:editor={editor}
+  on:change={handleChange}
+  debounceChangeEventsInterval={0}/>
 
 <div class="mirror">Current plain text content of the editor: "{textContent}"</div>
 
@@ -65,7 +65,7 @@
   }
 
   div.controls {
-    margin-top: 1em;
+    margin: .5em .5em;
   }
 
   div.mirror {
@@ -77,7 +77,6 @@
   :global(.ui-editor) {
     box-sizing: border-box;
     background-color: transparent;
-    color: var(--ui-color-baseline);
     padding: 1em;
     border: 1px solid #efefef;
     border-radius: .5em;

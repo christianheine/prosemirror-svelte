@@ -43,6 +43,9 @@ var app = (function () {
     function space() {
         return text(' ');
     }
+    function empty() {
+        return text('');
+    }
     function listen(node, event, handler, options) {
         node.addEventListener(event, handler, options);
         return () => node.removeEventListener(event, handler, options);
@@ -3832,6 +3835,7 @@ var app = (function () {
       // declare global: window
       return options.document || window.document
     }
+    //# sourceMappingURL=index.es.js.map
 
     // Mappable:: interface
     // There are several things that positions can be mapped through.
@@ -5517,6 +5521,7 @@ var app = (function () {
       }
       return result
     }
+    //# sourceMappingURL=index.es.js.map
 
     var classesById = Object.create(null);
 
@@ -6637,6 +6642,7 @@ var app = (function () {
     // :: (EditorState) → ?any
     // Get the plugin's state from an editor state.
     PluginKey.prototype.getState = function getState (state) { return state[this.key] };
+    //# sourceMappingURL=index.es.js.map
 
     const singleLineSchema = new Schema({
       nodes: {
@@ -6880,6 +6886,7 @@ var app = (function () {
         return false
       }
     }
+    //# sourceMappingURL=index.es.js.map
 
     // :: (EditorState, ?(tr: Transaction)) → bool
     // Delete the selection, if there is one.
@@ -7447,6 +7454,7 @@ var app = (function () {
     // [`pcBasekeymap`](#commands.pcBaseKeymap) or
     // [`macBaseKeymap`](#commands.macBaseKeymap).
     var baseKeymap = mac$2 ? macBaseKeymap : pcBaseKeymap;
+    //# sourceMappingURL=index.es.js.map
 
     var GOOD_LEAF_SIZE = 200;
 
@@ -8072,6 +8080,7 @@ var app = (function () {
       if (dispatch) { histTransaction(hist, state, dispatch, true); }
       return true
     }
+    //# sourceMappingURL=index.es.js.map
 
     /**
      * Core plugins which will be passed by default to each editor state instance
@@ -8136,6 +8145,28 @@ var app = (function () {
           ...corePlugins
         ]
       })
+    };
+
+    /**
+     * Serialize an editor state to JSON
+     * @param editorState {EditorState}
+     * @returns Object
+     */
+    const toJSON = (editorState) => {
+      return editorState ? editorState.toJSON() : null
+    };
+
+    /**
+     *
+     * @param json JSON representation of the editor state
+     * @param schema Related schema (defaults to multiline)
+     * @param plugins Additional plugins
+     * @returns {instance|EditorState}
+     */
+    const fromJSON = (json, schema = multiLineSchema, plugins = corePlugins) => {
+      return EditorState.fromJSON({
+        schema, plugins
+      }, json)
     };
 
     var result = {};
@@ -12063,7 +12094,7 @@ var app = (function () {
     // Create a set of decorations, using the structure of the given
     // document.
     DecorationSet.create = function create (doc, decorations) {
-      return decorations.length ? buildTree(decorations, doc, 0, noSpec) : empty
+      return decorations.length ? buildTree(decorations, doc, 0, noSpec) : empty$1
     };
 
     // :: (?number, ?number, ?(spec: Object) → bool) → [Decoration]
@@ -12104,7 +12135,7 @@ var app = (function () {
     //   that gets dropped as a result of the mapping, passing the
     //   spec of that decoration.
     DecorationSet.prototype.map = function map (mapping, doc, options) {
-      if (this == empty || mapping.maps.length == 0) { return this }
+      if (this == empty$1 || mapping.maps.length == 0) { return this }
       return this.mapInner(mapping, doc, 0, 0, options || noSpec)
     };
 
@@ -12119,7 +12150,7 @@ var app = (function () {
       if (this.children.length)
         { return mapChildren(this.children, newLocal, mapping, node, offset, oldOffset, options) }
       else
-        { return newLocal ? new DecorationSet(newLocal.sort(byPos)) : empty }
+        { return newLocal ? new DecorationSet(newLocal.sort(byPos)) : empty$1 }
     };
 
     // :: (Node, [Decoration]) → DecorationSet
@@ -12128,7 +12159,7 @@ var app = (function () {
     // create the appropriate tree structure.
     DecorationSet.prototype.add = function add (doc, decorations) {
       if (!decorations.length) { return this }
-      if (this == empty) { return DecorationSet.create(doc, decorations) }
+      if (this == empty$1) { return DecorationSet.create(doc, decorations) }
       return this.addInner(doc, decorations, 0)
     };
 
@@ -12158,7 +12189,7 @@ var app = (function () {
     // Create a new set that contains the decorations in this set, minus
     // the ones in the given array.
     DecorationSet.prototype.remove = function remove (decorations) {
-      if (decorations.length == 0 || this == empty) { return this }
+      if (decorations.length == 0 || this == empty$1) { return this }
       return this.removeInner(decorations, 0)
     };
 
@@ -12175,7 +12206,7 @@ var app = (function () {
         if (!found) { continue }
         if (children == this.children) { children = this.children.slice(); }
         var removed = children[i + 2].removeInner(found, from + 1);
-        if (removed != empty) {
+        if (removed != empty$1) {
           children[i + 2] = removed;
         } else {
           children.splice(i, 3);
@@ -12189,11 +12220,11 @@ var app = (function () {
         } }
       } } }
       if (children == this.children && local == this.local) { return this }
-      return local.length || children.length ? new DecorationSet(local, children) : empty
+      return local.length || children.length ? new DecorationSet(local, children) : empty$1
     };
 
     DecorationSet.prototype.forChild = function forChild (offset, node) {
-      if (this == empty) { return this }
+      if (this == empty$1) { return this }
       if (node.isLeaf) { return DecorationSet.empty }
 
       var child, local;
@@ -12213,7 +12244,7 @@ var app = (function () {
         var localSet = new DecorationSet(local.sort(byPos));
         return child ? new DecorationGroup([localSet, child]) : localSet
       }
-      return child || empty
+      return child || empty$1
     };
 
     DecorationSet.prototype.eq = function eq (other) {
@@ -12235,7 +12266,7 @@ var app = (function () {
     };
 
     DecorationSet.prototype.localsInner = function localsInner (node) {
-      if (this == empty) { return none }
+      if (this == empty$1) { return none }
       if (node.inlineContent || !this.local.some(InlineType.is)) { return this.local }
       var result = [];
       for (var i = 0; i < this.local.length; i++) {
@@ -12245,11 +12276,11 @@ var app = (function () {
       return result
     };
 
-    var empty = new DecorationSet();
+    var empty$1 = new DecorationSet();
 
     // :: DecorationSet
     // The empty set of decorations.
-    DecorationSet.empty = empty;
+    DecorationSet.empty = empty$1;
 
     DecorationSet.removeOverlap = removeOverlap;
 
@@ -12265,7 +12296,7 @@ var app = (function () {
       var found = [];
       for (var i = 0; i < this.members.length; i++) {
         var result = this.members[i].forChild(offset, child);
-        if (result == empty) { continue }
+        if (result == empty$1) { continue }
         if (result instanceof DecorationGroup) { found = found.concat(result.members); }
         else { found.push(result); }
       }
@@ -12303,7 +12334,7 @@ var app = (function () {
     // a single set when possible.
     DecorationGroup.from = function from (members) {
       switch (members.length) {
-        case 0: return empty
+        case 0: return empty$1
         case 1: return members[0]
         default: return new DecorationGroup(members)
       }
@@ -12345,7 +12376,7 @@ var app = (function () {
         var childNode = node.maybeChild(index);
         if (childNode && childOffset == fromLocal && childOffset + childNode.nodeSize == toLocal) {
           var mapped = children[i$1 + 2].mapInner(mapping, childNode, from + 1, children[i$1] + oldOffset + 1, options);
-          if (mapped != empty) {
+          if (mapped != empty$1) {
             children[i$1] = fromLocal;
             children[i$1 + 1] = toLocal;
             children[i$1 + 2] = mapped;
@@ -12436,7 +12467,7 @@ var app = (function () {
         if (found) {
           hasNulls = true;
           var subtree = buildTree(found, childNode, offset + localStart + 1, options);
-          if (subtree != empty)
+          if (subtree != empty$1)
             { children.push(localStart, localStart + childNode.nodeSize, subtree); }
         }
       });
@@ -12445,7 +12476,7 @@ var app = (function () {
         if (options.onRemove) { options.onRemove(locals[i].spec); }
         locals.splice(i--, 1);
       } }
-      return locals.length || children.length ? new DecorationSet(locals, children) : empty
+      return locals.length || children.length ? new DecorationSet(locals, children) : empty$1
     }
 
     // : (Decoration, Decoration) → number
@@ -12502,7 +12533,7 @@ var app = (function () {
       var found = [];
       view.someProp("decorations", function (f) {
         var result = f(view.state);
-        if (result && result != empty) { found.push(result); }
+        if (result && result != empty$1) { found.push(result); }
       });
       if (view.cursorWrapper)
         { found.push(DecorationSet.create(view.state.doc, [view.cursorWrapper.deco])); }
@@ -12919,6 +12950,7 @@ var app = (function () {
       for (var _ in b) { nB++; }
       return nA != nB
     }
+    //# sourceMappingURL=index.es.js.map
 
     /* ProsemirrorEditor.svelte generated by Svelte v3.16.7 */
     const file = "ProsemirrorEditor.svelte";
@@ -13289,16 +13321,16 @@ var app = (function () {
     function create_fragment$1(ctx) {
     	let h3;
     	let t1;
-    	let updating_editor;
-    	let t2;
     	let div0;
     	let button0;
-    	let t4;
+    	let t3;
     	let button1;
-    	let t6;
+    	let t5;
     	let button2;
-    	let t8;
+    	let t7;
     	let button3;
+    	let t9;
+    	let updating_editor;
     	let t10;
     	let div1;
     	let t11;
@@ -13334,33 +13366,33 @@ var app = (function () {
     			h3 = element("h3");
     			h3.textContent = "Plain text editor example";
     			t1 = space();
-    			create_component(prosemirroreditor.$$.fragment);
-    			t2 = space();
     			div0 = element("div");
     			button0 = element("button");
     			button0.textContent = "Clear";
-    			t4 = space();
+    			t3 = space();
     			button1 = element("button");
     			button1.textContent = "Reset text";
-    			t6 = space();
+    			t5 = space();
     			button2 = element("button");
     			button2.textContent = "Select all";
-    			t8 = space();
+    			t7 = space();
     			button3 = element("button");
     			button3.textContent = "Focus";
+    			t9 = space();
+    			create_component(prosemirroreditor.$$.fragment);
     			t10 = space();
     			div1 = element("div");
     			t11 = text("Current plain text content of the editor: \"");
     			t12 = text(/*textContent*/ ctx[2]);
     			t13 = text("\"");
     			add_location(h3, file$1, 36, 0, 808);
-    			add_location(button0, file$1, 46, 2, 1023);
-    			add_location(button1, file$1, 47, 2, 1071);
-    			add_location(button2, file$1, 48, 2, 1124);
-    			add_location(button3, file$1, 49, 2, 1179);
-    			attr_dev(div0, "class", "controls svelte-15es9xw");
-    			add_location(div0, file$1, 45, 0, 998);
-    			attr_dev(div1, "class", "mirror svelte-15es9xw");
+    			add_location(button0, file$1, 39, 2, 869);
+    			add_location(button1, file$1, 40, 2, 917);
+    			add_location(button2, file$1, 41, 2, 970);
+    			add_location(button3, file$1, 42, 2, 1025);
+    			attr_dev(div0, "class", "controls svelte-kh7pzv");
+    			add_location(div0, file$1, 38, 0, 844);
+    			attr_dev(div1, "class", "mirror svelte-kh7pzv");
     			add_location(div1, file$1, 52, 0, 1233);
 
     			dispose = [
@@ -13376,16 +13408,16 @@ var app = (function () {
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
     			insert_dev(target, t1, anchor);
-    			mount_component(prosemirroreditor, target, anchor);
-    			insert_dev(target, t2, anchor);
     			insert_dev(target, div0, anchor);
     			append_dev(div0, button0);
-    			append_dev(div0, t4);
+    			append_dev(div0, t3);
     			append_dev(div0, button1);
-    			append_dev(div0, t6);
+    			append_dev(div0, t5);
     			append_dev(div0, button2);
-    			append_dev(div0, t8);
+    			append_dev(div0, t7);
     			append_dev(div0, button3);
+    			insert_dev(target, t9, anchor);
+    			mount_component(prosemirroreditor, target, anchor);
     			insert_dev(target, t10, anchor);
     			insert_dev(target, div1, anchor);
     			append_dev(div1, t11);
@@ -13418,9 +13450,9 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(h3);
     			if (detaching) detach_dev(t1);
-    			destroy_component(prosemirroreditor, detaching);
-    			if (detaching) detach_dev(t2);
     			if (detaching) detach_dev(div0);
+    			if (detaching) detach_dev(t9);
+    			destroy_component(prosemirroreditor, detaching);
     			if (detaching) detach_dev(t10);
     			if (detaching) detach_dev(div1);
     			run_all(dispose);
@@ -13679,6 +13711,7 @@ var app = (function () {
     // To reuse elements from this schema, extend or read from its
     // `spec.nodes` and `spec.marks` [properties](#model.Schema.spec).
     var schema = new Schema({nodes: nodes, marks: marks});
+    //# sourceMappingURL=index.es.js.map
 
     // :: (options: ?Object) → Plugin
     // Create a plugin that, when added to a ProseMirror instance,
@@ -13811,6 +13844,7 @@ var app = (function () {
       if (event.target == this.editorView.dom || !this.editorView.dom.contains(event.relatedTarget))
         { this.setCursor(null); }
     };
+    //# sourceMappingURL=index.es.js.map
 
     // ::- Gap cursor selections are represented using this class. Its
     // `$anchor` and `$head` properties both point at the cursor position.
@@ -13993,6 +14027,7 @@ var app = (function () {
       node.className = "ProseMirror-gapcursor";
       return DecorationSet.create(state.doc, [Decoration.widget(state.selection.head, node, {key: "gapcursor"})])
     }
+    //# sourceMappingURL=index.es.js.map
 
     var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -14799,6 +14834,7 @@ var app = (function () {
             { res.push(cur); }
         return res
     }
+    //# sourceMappingURL=index.es.js.map
 
     // :: (NodeType, ?Object) → (state: EditorState, dispatch: ?(tr: Transaction)) → bool
     // Returns a command function that wraps the selection in a list with
@@ -14977,6 +15013,7 @@ var app = (function () {
         return true
       }
     }
+    //# sourceMappingURL=index.es.js.map
 
     // ::- Input rules are regular expressions describing a piece of text
     // that, when typed, causes something to happen. This might be
@@ -15144,6 +15181,7 @@ var app = (function () {
           .setBlockType(start, start, nodeType, attrs)
       })
     }
+    //# sourceMappingURL=index.es.js.map
 
     var prefix$3 = "ProseMirror-prompt";
 
@@ -15728,32 +15766,127 @@ var app = (function () {
         }
       }))
     }
+    //# sourceMappingURL=index.es.js.map
 
     /* examples/src/RichTextEditor.svelte generated by Svelte v3.16.7 */
     const file$2 = "examples/src/RichTextEditor.svelte";
 
+    // (103:0) {#if showEditorState}
+    function create_if_block(ctx) {
+    	let pre;
+    	let t_value = JSON.stringify(toJSON(/*editorState*/ ctx[1]), null, 2) + "";
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			pre = element("pre");
+    			t = text(t_value);
+    			attr_dev(pre, "class", "svelte-1gxtb5v");
+    			add_location(pre, file$2, 103, 2, 2875);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, pre, anchor);
+    			append_dev(pre, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*editorState*/ 2 && t_value !== (t_value = JSON.stringify(toJSON(/*editorState*/ ctx[1]), null, 2) + "")) set_data_dev(t, t_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(pre);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(103:0) {#if showEditorState}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
     function create_fragment$2(ctx) {
     	let h3;
     	let t1;
+    	let div0;
+    	let button0;
+    	let t3;
+    	let button1;
+    	let t5;
+    	let button2;
+    	let t7;
+    	let button3;
+    	let t9;
+    	let t10;
+    	let div1;
+    	let label;
+    	let t11;
+    	let input;
+    	let t12;
+    	let if_block_anchor;
     	let current;
+    	let dispose;
 
     	const prosemirroreditor = new ProsemirrorEditor({
     			props: {
     				placeholder: "Go ahead. Type and format",
-    				editorState: /*editorState*/ ctx[0]
+    				editorState: /*editorState*/ ctx[1]
     			},
     			$$inline: true
     		});
 
-    	prosemirroreditor.$on("change", /*handleChange*/ ctx[1]);
+    	prosemirroreditor.$on("transaction", /*handleChange*/ ctx[2]);
+    	let if_block = /*showEditorState*/ ctx[0] && create_if_block(ctx);
 
     	const block = {
     		c: function create() {
     			h3 = element("h3");
     			h3.textContent = "Rich text editor example";
     			t1 = space();
+    			div0 = element("div");
+    			button0 = element("button");
+    			button0.textContent = "Clear";
+    			t3 = space();
+    			button1 = element("button");
+    			button1.textContent = "Reset text";
+    			t5 = space();
+    			button2 = element("button");
+    			button2.textContent = "Save to local storage";
+    			t7 = space();
+    			button3 = element("button");
+    			button3.textContent = "Load from local storage";
+    			t9 = space();
     			create_component(prosemirroreditor.$$.fragment);
-    			add_location(h3, file$2, 40, 0, 1350);
+    			t10 = space();
+    			div1 = element("div");
+    			label = element("label");
+    			t11 = text("Show serialized editor state\n    ");
+    			input = element("input");
+    			t12 = space();
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
+    			add_location(h3, file$2, 79, 0, 2191);
+    			add_location(button0, file$2, 82, 2, 2251);
+    			add_location(button1, file$2, 83, 2, 2299);
+    			add_location(button2, file$2, 85, 2, 2353);
+    			add_location(button3, file$2, 86, 2, 2416);
+    			attr_dev(div0, "class", "controls svelte-1gxtb5v");
+    			add_location(div0, file$2, 81, 0, 2226);
+    			attr_dev(input, "type", "checkbox");
+    			add_location(input, file$2, 98, 4, 2776);
+    			add_location(label, file$2, 97, 2, 2736);
+    			attr_dev(div1, "class", "controls svelte-1gxtb5v");
+    			add_location(div1, file$2, 96, 0, 2711);
+
+    			dispose = [
+    				listen_dev(button0, "click", /*clearEditor*/ ctx[3], false, false, false),
+    				listen_dev(button1, "click", /*resetEditor*/ ctx[4], false, false, false),
+    				listen_dev(button2, "click", /*handleSave*/ ctx[5], false, false, false),
+    				listen_dev(button3, "click", /*handleLoad*/ ctx[6], false, false, false),
+    				listen_dev(input, "change", /*input_change_handler*/ ctx[11])
+    			];
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -15761,13 +15894,48 @@ var app = (function () {
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
     			insert_dev(target, t1, anchor);
+    			insert_dev(target, div0, anchor);
+    			append_dev(div0, button0);
+    			append_dev(div0, t3);
+    			append_dev(div0, button1);
+    			append_dev(div0, t5);
+    			append_dev(div0, button2);
+    			append_dev(div0, t7);
+    			append_dev(div0, button3);
+    			insert_dev(target, t9, anchor);
     			mount_component(prosemirroreditor, target, anchor);
+    			insert_dev(target, t10, anchor);
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, label);
+    			append_dev(label, t11);
+    			append_dev(label, input);
+    			input.checked = /*showEditorState*/ ctx[0];
+    			insert_dev(target, t12, anchor);
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
     			const prosemirroreditor_changes = {};
-    			if (dirty & /*editorState*/ 1) prosemirroreditor_changes.editorState = /*editorState*/ ctx[0];
+    			if (dirty & /*editorState*/ 2) prosemirroreditor_changes.editorState = /*editorState*/ ctx[1];
     			prosemirroreditor.$set(prosemirroreditor_changes);
+
+    			if (dirty & /*showEditorState*/ 1) {
+    				input.checked = /*showEditorState*/ ctx[0];
+    			}
+
+    			if (/*showEditorState*/ ctx[0]) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block(ctx);
+    					if_block.c();
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -15781,7 +15949,15 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(h3);
     			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(div0);
+    			if (detaching) detach_dev(t9);
     			destroy_component(prosemirroreditor, detaching);
+    			if (detaching) detach_dev(t10);
+    			if (detaching) detach_dev(div1);
+    			if (detaching) detach_dev(t12);
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
+    			run_all(dispose);
     		}
     	};
 
@@ -15797,6 +15973,8 @@ var app = (function () {
     }
 
     function instance$2($$self, $$props, $$invalidate) {
+    	let showEditorState = false;
+    	let editor;
     	const plugins = exampleSetup({ schema, menuBar: false });
 
     	const doc = schema.node("doc", null, [
@@ -15818,10 +15996,48 @@ var app = (function () {
     		])
     	]);
 
-    	let editorState = EditorState.create({ schema, doc, plugins });
+    	const getEditorState = () => EditorState.create({ schema, doc, plugins });
+    	let editorState = getEditorState();
 
     	function handleChange(event) {
-    		$$invalidate(0, editorState = event.detail.editorState);
+    		$$invalidate(1, editorState = event.detail.editorState);
+    	}
+
+    	const clearEditor = event => {
+    		$$invalidate(1, editorState = clear(editorState));
+    	};
+
+    	const resetEditor = event => {
+    		$$invalidate(1, editorState = getEditorState());
+    	};
+
+    	function handleSave() {
+    		try {
+    			localStorage.setItem("editor", JSON.stringify(toJSON(editorState)));
+    			alert("Saved!");
+    		} catch(err) {
+    			alert("Error saving your state:" + err.message);
+    		}
+    	}
+
+    	function handleLoad() {
+    		const state = localStorage.getItem("editor");
+
+    		if (!state) {
+    			alert("Nothing saved so far");
+    			return;
+    		}
+
+    		try {
+    			$$invalidate(1, editorState = fromJSON(JSON.parse(state), schema, plugins));
+    		} catch(err) {
+    			alert("Error loading your state:" + err.message);
+    		}
+    	}
+
+    	function input_change_handler() {
+    		showEditorState = this.checked;
+    		$$invalidate(0, showEditorState);
     	}
 
     	$$self.$capture_state = () => {
@@ -15829,10 +16045,25 @@ var app = (function () {
     	};
 
     	$$self.$inject_state = $$props => {
-    		if ("editorState" in $$props) $$invalidate(0, editorState = $$props.editorState);
+    		if ("showEditorState" in $$props) $$invalidate(0, showEditorState = $$props.showEditorState);
+    		if ("editor" in $$props) editor = $$props.editor;
+    		if ("editorState" in $$props) $$invalidate(1, editorState = $$props.editorState);
     	};
 
-    	return [editorState, handleChange];
+    	return [
+    		showEditorState,
+    		editorState,
+    		handleChange,
+    		clearEditor,
+    		resetEditor,
+    		handleSave,
+    		handleLoad,
+    		editor,
+    		plugins,
+    		doc,
+    		getEditorState,
+    		input_change_handler
+    	];
     }
 
     class RichTextEditor extends SvelteComponentDev {

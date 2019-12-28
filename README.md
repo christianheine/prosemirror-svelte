@@ -4,15 +4,10 @@
 The key motivation of this component is to provide a gentle wrapper around prosemirror - while trying to embrace its 
 core concept (such as the EditorState and Transactions). 
 
-Feel free to use the (very basic) helpers to create your schema provided by this package. 
-They will get you started with a working single-line or multi-line editor (but without rich-text format support). 
-For that you will need to implement your custom schema and create your own editor state (which is not that hard). You may 
-also use the schema provided by prosemirror-basic-schema, of course.
+If you only need a basic editor you can use the included helpers to create your editor state (see below). They will get you started with a working single-line or multi-line editor.
+If you are in need of rich-text editing, I strongly recommend to implement you custom schema. You may 
+also use the schema provided by prosemirror-basic-schema, of course. In case you are just getting started with Prosemirror and want to see a working implementation, have a look at the [examples](examples). 
 
-If you wonder "Why should I want an editor which does not process rich text?": 
-Well, try to implement custom tag formatting or a hashtag editor in a basic HTML input
-or textarea and them come back to this page.   
- 
 ## Installation
 
 ```bash
@@ -88,16 +83,20 @@ To support the plugin system provided by Prosemirror, the component also listens
 The example app which is included in the repository can be also be found here: http://prosemirror-svelte.surge.sh  
 
 ## Helper methods
-- split [(EditorState) -> EditorState]: splits the text at the current selection. If the selection is not collapsed, it will be split around it.
-- getPlainText  [(EditorState) -> String]: returns the plain text content of the given editor state.
-- selectText [(editorState: EditorState, from: number, to: number) => EditorState]: returns a new editor state with the the selection around from and to.
-- clear [(EditorState) -> EditorState]: returns a new editor state where all content was removed.
-- selectAll [(EditorState) -> EditorState]: returns a new editor state with all text selected.
-- deleteSelection [(EditorState) -> EditorState]: returns a new editor state where the selection was deleted.
-- replaceTextAtPosition [(editorState, from, to, newText, setSelection = false) -> EditorState]: returns a new editor state where the text between "from" and "to" was replaced by a new one, optionally setting a selection for that inserted text.
+### Creating and serializing editor state
+- **createSingleLineEditor** [(content = "", plugins = []) -> EditorState]: Creates an editor state with a single-line schema and optional text content
+- **createMultiLineEditor** [(content = "", plugins = []) -> EditorState]: Creates an editor state with a multi-line schema and optional text content
+- **toJSON** [(EditorState)->Object]: Serialize the editor state as JSON
+- **fromJSON** [(json, schema = multiLineSchema, plugins = corePlugins)]: Create editor state from a JSON object 
 
-- createSingleLineEditor [(content = "", plugins = []) -> EditorState]: Creates an editor state with a single-line schema and optional text content
-- createMultiLineEditor [(content = "", plugins = []) -> EditorState]: Creates an editor state with a multi-line schema and optional text content
+### Modifying editor state
+- **split** [(EditorState) -> EditorState]: splits the text at the current selection. If the selection is not collapsed, it will be split around it.
+- **getPlainText**  [(EditorState) -> String]: returns the plain text content of the given editor state.
+- selectText [(editorState: EditorState, from: number, to: number) => EditorState]: returns a new editor state with the the selection around from and to.
+- **clear** [(EditorState) -> EditorState]: returns a new editor state where all content was removed.
+- **selectAll** [(EditorState) -> EditorState]: returns a new editor state with all text selected.
+- **deleteSelection** [(EditorState) -> EditorState]: returns a new editor state where the selection was deleted.
+- **replaceTextAtPosition** [(editorState, from, to, newText, setSelection = false) -> EditorState]: returns a new editor state where the text between "from" and "to" was replaced by a new one, optionally setting a selection for that inserted text.
 
 ## License
 [MIT](LICENSE)

@@ -56,3 +56,25 @@ export const createMultiLineEditor = (content = "", plugins = []) => {
     ]
   })
 }
+
+/**
+ * Serialize an editor state to JSON
+ * @param editorState {EditorState}
+ * @returns Object
+ */
+export const toJSON = (editorState) => {
+  return editorState ? editorState.toJSON() : null
+}
+
+/**
+ *
+ * @param json JSON representation of the editor state
+ * @param schema Related schema (defaults to multiline)
+ * @param plugins Additional plugins
+ * @returns {instance|EditorState}
+ */
+export const fromJSON = (json, schema = multiLineSchema, plugins = corePlugins) => {
+  return EditorState.fromJSON({
+    schema, plugins
+  }, json)
+}
