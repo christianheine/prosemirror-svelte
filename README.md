@@ -98,5 +98,9 @@ The example app which is included in the repository can be also be found here: h
 - **deleteSelection** [(EditorState) -> EditorState]: returns a new editor state where the selection was deleted.
 - **replaceTextAtPosition** [(editorState, from, to, newText, setSelection = false) -> EditorState]: returns a new editor state where the text between "from" and "to" was replaced by a new one, optionally setting a selection for that inserted text.
 
+### Getting meta information about the current state
+- **getNodeTypeAtSelectionHead** [(editorState: EditorState)->{type:NodeType, attrs: Object}]: Returns the type of node at the head of the current selection, e.g. for activating menu buttons
+- **getCurrentMarks** [(editorState: EditorState)-> {{activeMarks: Object<string,Mark>, marksInSelection: Object<string,Mark>, marksAtHead: Object<string,Mark>, storedMarks: Object}}]: Returns information about the marks inside the current selection (i.e. whether the text is marked as bold or italic). *Active marks* is what you might want to use for setting menu buttons active/inactive. Have a look at the examples to guide you in the right direction.
+
 ## License
 [MIT](LICENSE)

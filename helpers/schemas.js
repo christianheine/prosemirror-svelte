@@ -1,11 +1,11 @@
-import { Schema } from 'prosemirror-model'
+import { Schema } from 'prosemirror-model';
 
 export const singleLineSchema = new Schema({
   nodes: {
     doc: {content: "text*"},
     text: {inline: true}
   }
-})
+});
 
 export const multiLineSchema = new Schema({
   nodes: {
@@ -21,4 +21,4 @@ export const multiLineSchema = new Schema({
       inline: true
     }
   }
-})
+});

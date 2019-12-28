@@ -6,16 +6,16 @@ import { EditorState, TextSelection, AllSelection } from "prosemirror-state"
  * @return {EditorState}
  */
 export const split = editorState => {
-  const transaction = editorState.tr
+  const transaction = editorState.tr;
   
-  transaction.split(editorState.selection.from)
+  transaction.split(editorState.selection.from);
   
   // if text is selected split before and after the text
   if (!editorState.selection.empty) {
-    transaction.split(transaction.mapping.map(editorState.selection.to))
+    transaction.split(transaction.mapping.map(editorState.selection.to));
   }
   
-  return editorState.apply(transaction)
+  return editorState.apply(transaction);
 }
 
 /**
@@ -26,15 +26,15 @@ export const split = editorState => {
 export const getPlainText = editorState => {
   
   if (editorState.doc.childCount === 0) {
-    return ''
+    return '';
   } else if (editorState.doc.childCount === 1) {
-    return editorState.doc.textContent
+    return editorState.doc.textContent;
   } else {
-    let paragraphs = []
+    let paragraphs = [];
     for (let i = 0; i < editorState.doc.childCount; i++) {
-      paragraphs.push(editorState.doc.child(i).textContent)
+      paragraphs.push(editorState.doc.child(i).textContent);
     }
-    return paragraphs.join('\n')
+    return paragraphs.join('\n');
   }
 }
 
@@ -45,32 +45,32 @@ export const getPlainText = editorState => {
  * @param to {number}
  */
 export const selectText = (editorState, from, to) => {
-  const selection = TextSelection.create(editorState.doc, from, to)
-  const transaction = editorState.tr
-  transaction.setSelection(selection)
-  return editorState.apply(transaction)
+  const selection = TextSelection.create(editorState.doc, from, to);
+  const transaction = editorState.tr;
+  transaction.setSelection(selection);
+  return editorState.apply(transaction);
 }
 
 export const clear = (editorState) => {
-  const selection = new AllSelection(editorState.doc)
-  const transaction = editorState.tr
-  transaction.setSelection(selection)
-  transaction.deleteSelection().scrollIntoView()
-  return editorState.apply(transaction)
+  const selection = new AllSelection(editorState.doc);
+  const transaction = editorState.tr;
+  transaction.setSelection(selection);
+  transaction.deleteSelection().scrollIntoView();
+  return editorState.apply(transaction);
 }
 
 export const selectAll = (editorState) => {
-  const selection = new AllSelection(editorState.doc)
-  const transaction = editorState.tr
-  transaction.setSelection(selection)
-  return editorState.apply(transaction)
+  const selection = new AllSelection(editorState.doc);
+  const transaction = editorState.tr;
+  transaction.setSelection(selection);
+  return editorState.apply(transaction);
 }
 
 export const deleteSelection = (editorState) => {
-  if (editorState.selection.empty) return false
-  const transaction = editorState.tr
-  transaction.deleteSelection().scrollIntoView()
-  return editorState.apply(transaction)
+  if (editorState.selection.empty) return false;
+  const transaction = editorState.tr;
+  transaction.deleteSelection().scrollIntoView();
+  return editorState.apply(transaction);
 }
 
 /**
@@ -83,14 +83,14 @@ export const deleteSelection = (editorState) => {
  * @return {EditorState}
  */
 export const replaceTextAtPosition = (editorState, from, to, newText, setSelection = false) => {
-  const transaction = editorState.tr
+  const transaction = editorState.tr;
   
-  transaction.replaceWith(from, to, editorState.schema.text(newText))
+  transaction.replaceWith(from, to, editorState.schema.text(newText));
   
   if (setSelection) {
-    const selection = TextSelection.create(transaction.doc, from, from + newText.length)
-    transaction.setSelection(selection)
+    const selection = TextSelection.create(transaction.doc, from, from + newText.length);
+    transaction.setSelection(selection);
   }
   
-  return editorState.apply(transaction)
+  return editorState.apply(transaction);
 }

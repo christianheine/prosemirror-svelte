@@ -4,12 +4,12 @@
   import { exampleSetup } from "prosemirror-example-setup";
 
   import ProsemirrorEditor from "../../ProsemirrorEditor.svelte";
-  import { clear, fromJSON, toJSON } from "../../helpers";
+  import { clear, fromJSON, toJSON, getCurrentMarks, getNodeTypeAtSelectionHead } from "../../helpers";
+
+  const plugins = exampleSetup({schema, menuBar: false});
 
   let showEditorState = false;
   let editor;
-
-  const plugins = exampleSetup({schema, menuBar: false});
 
   const doc = schema.node("doc", null,
     [
@@ -27,7 +27,7 @@
         schema.text("?", null)
       ]),
       schema.node("paragraph", null, [
-        schema.text("My creator was too lazy to create buttons for changing the format. But you can also use your keyboard. E.g. ", null),
+        schema.text("You can change the format using the keyboard. E.g. ", null),
         schema.text("Ctrl/Cmd-B", [schema.mark("strong")]),
         schema.text(" will toggle text as bold.", null),
       ]),
@@ -72,8 +72,11 @@
     } catch (err) {
       alert('Error loading your state:' + err.message);
     }
-
   }
+
+  $: currentMarks = editorState ? getCurrentMarks(editorState) : null
+  $: activeMarks = currentMarks ? Object.keys(currentMarks.activeMarks) : []
+  $: nodeAtSelectionHead = editorState ? getNodeTypeAtSelectionHead(editorState) : {}
 
 </script>
 
@@ -82,7 +85,6 @@
 <div class="controls">
   <button on:click={clearEditor}>Clear</button>
   <button on:click={resetEditor}>Reset text</button>
-
   <button on:click={handleSave}>Save to local storage</button>
   <button on:click={handleLoad}>Load from local storage</button>
 </div>
@@ -95,19 +97,45 @@
 />
 
 <div class="controls">
-  <label>Show serialized editor state
-    <input type="checkbox" bind:checked={showEditorState}/>
-  </label>
+
+  Additional information about the current editor instance:
+
+  <ul>
+
+    <!-- Show which marks are currently active, e.g. to highlight a menu button -->
+    <li><b>Active marks: </b>{activeMarks && activeMarks.length ? activeMarks.toString() : 'none'}</li>
+
+    <!-- Show which node is currently active at the selection head, e.g. to highlight a menu button menu -->
+    <li>
+      <b>Type of node at selection head:</b>
+        {nodeAtSelectionHead.type.name}
+        {nodeAtSelectionHead.attrs && nodeAtSelectionHead.attrs.level ? nodeAtSelectionHead.attrs.level: ''}
+    </li>
+
+  </ul>
+
+  <p>
+    <label>Show serialized editor state
+      <input type="checkbox" bind:checked={showEditorState}/>
+    </label>
+  </p>
 </div>
 
 {#if showEditorState}
   <pre>{JSON.stringify(toJSON(editorState), null, 2)}</pre>
 {/if}
 
-
 <style>
   div.controls {
     margin: .5em .5em;
+  }
+
+  ul {
+    margin-top: .5em;
+  }
+
+  label {
+    margin-top: .5em;
   }
 
   pre {
