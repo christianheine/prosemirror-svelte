@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher } from 'svelte'
-  import { createSingleLineEditor } from './helpers/state'
+  import { createSingleLineEditor } from './state'
   import { EditorView } from "prosemirror-view"
   import { EditorState } from "prosemirror-state"
 
@@ -28,7 +28,7 @@
 
   /** Focus the content-editable div */
   export function focus() {
-    editor && editor.focus()
+    view && view.focus()
   }
 
   /** Blur the content-editable div */

@@ -1,4 +1,7 @@
-import { EditorState, TextSelection, AllSelection } from "prosemirror-state"
+import { EditorState, TextSelection, AllSelection } from "prosemirror-state";
+import { MarkType } from "prosemirror-model";
+import * as commands from "prosemirror-commands";
+import { richTextSchema } from "./schemas"
 
 /**
  * Basic implementation to split the editor state at the current selection
@@ -18,25 +21,6 @@ export const split = editorState => {
   return editorState.apply(transaction);
 }
 
-/**
- * Get the text content from an editor State
- * @param editorState {EditorState}
- * @return {string}
- */
-export const getPlainText = editorState => {
-  
-  if (editorState.doc.childCount === 0) {
-    return '';
-  } else if (editorState.doc.childCount === 1) {
-    return editorState.doc.textContent;
-  } else {
-    let paragraphs = [];
-    for (let i = 0; i < editorState.doc.childCount; i++) {
-      paragraphs.push(editorState.doc.child(i).textContent);
-    }
-    return paragraphs.join('\n');
-  }
-}
 
 /**
  * Apply a selection to the editor state
@@ -51,6 +35,11 @@ export const selectText = (editorState, from, to) => {
   return editorState.apply(transaction);
 }
 
+/**
+ * Clear the given editor state (keeping the history)
+ * @param editorState
+ * @returns {EditorState}
+ */
 export const clear = (editorState) => {
   const selection = new AllSelection(editorState.doc);
   const transaction = editorState.tr;
@@ -59,6 +48,11 @@ export const clear = (editorState) => {
   return editorState.apply(transaction);
 }
 
+/**
+ * Select all content of the given editor state
+ * @param editorState
+ * @returns {EditorState}
+ */
 export const selectAll = (editorState) => {
   const selection = new AllSelection(editorState.doc);
   const transaction = editorState.tr;
@@ -66,8 +60,13 @@ export const selectAll = (editorState) => {
   return editorState.apply(transaction);
 }
 
+/**
+ * Delete the current selection
+ * @param editorState
+ * @returns {EditorState}
+ */
 export const deleteSelection = (editorState) => {
-  if (editorState.selection.empty) return false;
+  if (editorState.selection.empty) return editorState;
   const transaction = editorState.tr;
   transaction.deleteSelection().scrollIntoView();
   return editorState.apply(transaction);
@@ -93,4 +92,29 @@ export const replaceTextAtPosition = (editorState, from, to, newText, setSelecti
   }
   
   return editorState.apply(transaction);
+}
+
+/**
+ * Toggle the Mark for the given editor state
+ * @param editorState {EditorState}
+ * @param type {MarkType}
+ * @param attrs {Object}
+ * @returns {EditorState}
+ */
+export const toggleMark = (editorState, type, attrs) => {
+  let newEditorState;
+  
+  const dispatch = tr => newEditorState = editorState.apply(tr);
+
+  if (commands.toggleMark(type, attrs)(editorState, dispatch)) return newEditorState;
+  else return editorState;
+}
+
+/**
+ * Toggle the bold Mark for the given editor state
+ * @param editorState {EditorState}
+ * @returns {EditorState}
+ */
+export const toggleBold = (editorState) => {
+  return toggleMark(editorState, richTextSchema.marks.strong, null)
 }

@@ -13,33 +13,35 @@ body {
   font-weight: lighter;
 }
 
-h1 {
-  font-size: 4em;
-  font-weight: normal;
-}
-
-h2 {
-  font-size: 2em;
-  font-weight: normal;
+h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
-h3 {
-  font-size: 1.3em;
+h1 {
+  font-size: 1.8em;
   font-weight: normal;
-  margin: 2em 0 1em;
   text-transform: uppercase;
 }
 
-h4 {
+h2 {
+  font-size: 1.3em;
+  font-weight: normal;
+}
+
+h3 {
   font-size: 1.25em;
   font-weight: bold;
-  margin: 0 0 1em;
   border-bottom: 1px solid orangered;
 }
 
+h4 {
+  font-size: .9em;
+  font-weight: normal;
+  color: #adadad;
+}
+
 p {
-  margin: 1rem 0;
+  margin: .75em 0 .5em;
 }
 
 p:first-child {
@@ -109,4 +111,61 @@ button:hover {
 
 button:focus {
   color: white;
+}
+
+button.editor {
+  background-color: white;
+  color: rgb(68, 68, 68);
+}
+
+button.editor:hover {
+  color: rgb(68, 68, 68);
+  cursor: pointer;
+}
+
+button.editor:focus {
+  color: rgb(68, 68, 68);
+}
+
+button.editor.active {
+  color: steelblue;
+}
+
+div.controls {
+  margin: 1em .5em 1em;
+}
+
+div.mirror {
+  margin-top: 1em;
+  white-space: pre-line;
+  overflow-wrap: break-spaces;
+}
+
+label {
+  margin-top: .5em;
+}
+
+pre {
+  max-height: 20em;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-bottom: 2px solid orangered;
+  border-top: 2px solid orangered;
+}
+
+.ui-editor {
+  box-sizing: border-box;
+  background-color: transparent;
+  padding: 1em;
+  border: 1px solid #efefef;
+  border-radius: .5em;
+  display: inline-block;
+  font: inherit;
+  text-rendering: optimizeLegibility;
+  white-space: pre-line;
+  overflow-wrap: break-spaces;
+  vertical-align: top;
+  width: 100%;
+  min-height: 1.25rem;
+  outline: none;
 }

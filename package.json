@@ -8,6 +8,7 @@
   "svelte": "ProsemirrorEditor.svelte",
   "files": [
     "helpers/*",
+    "state/*",
     "ProsemirrorEditor.svelte",
     "LICENSE"
   ],
@@ -15,7 +16,7 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv examples/public",
-    "test": "echo \"No test specified (yet)\""
+    "test": "echo \"No tests specified (yet)\""
   },
   "repository": "https://github.com/christianheine/prosemirror-svelte",
   "bugs": {
@@ -28,9 +29,13 @@
   ],
   "dependencies": {
     "prosemirror-commands": "^1.1.2",
+    "prosemirror-dropcursor": "^1.3.2",
+    "prosemirror-gapcursor": "^1.1.2",
     "prosemirror-history": "^1.1.3",
+    "prosemirror-inputrules": "^1.1.2",
     "prosemirror-keymap": "^1.1.3",
     "prosemirror-model": "^1.8.2",
+    "prosemirror-schema-list": "^1.1.2",
     "prosemirror-state": "^1.3.2",
     "prosemirror-view": "^1.13.7"
   },

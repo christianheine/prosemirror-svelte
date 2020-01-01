@@ -1,34 +1,103 @@
 <script>
-  import PlainTextEditor from "./PlainTextEditor.svelte"
-  import RichTextEditor from "./RichTextEditor.svelte"
+  import PlainTextEditor from "./components/PlainTextEditor.svelte";
+
+  import RichTextEditor_101 from "./components/RichTextEditor_101.svelte";
+  import RichTextEditor_102 from "./components/RichTextEditor_102.svelte";
+  import RichTextEditor_103 from "./components/RichTextEditor_103.svelte";
+  import ProsemirrorLogo from "./components/ProsemirrorLogo.svelte"
+  import SvelteLogo from "./components/SvelteLogo.svelte"
+
+  let selectedExample = 'richtext_101';
+
+  const examples = {
+    "plaintext": {
+      name: '#1: Plain text',
+      title: "Plain text editor",
+      subtitle: "If you don't need rich text. Dead simple to use.",
+      component: PlainTextEditor
+    },
+    "richtext_101": {
+      name: '#2: Rich text',
+      title: 'Rich text 101',
+      subtitle: "Relatively minimal editor setup, to get a hang of the basics.",
+      component: RichTextEditor_101
+    },
+    "richtext_102": {
+      name: '#3: Transactions',
+      title: 'Rich text 102: Transactions',
+      subtitle: "Listening to the on-transaction event instead of on-change, e.g. to track changes to the current selection. Useful to track the state of menu buttons.",
+      component: RichTextEditor_102
+    },
+    "richtext_103": {
+      name: "#4: Serialization",
+      title: 'Rich text 103: JSON serialization',
+      subtitle: "Serializing to and from JSON (and saving your state to local storage, just for fun).",
+      component: RichTextEditor_103
+    },
+  }
 
 </script>
 
 <main>
 
   <div class="header">
-    <h2>Prosemirror editor</h2> <div class="header"><span>bindings for </span> <img src="https://svelte.dev/svelte-logo-horizontal.svg" alt="Svelte logo"></div>
+    <h1>Prosemirror-Svelte</h1>
+
+    <div class="subheader">
+      <ProsemirrorLogo/>
+      <span style="margin-left: .5em;">ProseMirror bindings for</span>
+      <SvelteLogo/>
+    </div>
   </div>
 
-  <PlainTextEditor/>
+  <div class="select_example">
 
-  <RichTextEditor/>
+    <h2>{examples[selectedExample].title}</h2>
+
+    <label>
+      <select bind:value={selectedExample}>
+          {#each Object.keys(examples) as example (example)}
+            <option value={example}>{examples[example].name}</option>
+          {/each}
+      </select>
+    </label>
+
+  </div>
+
+  <h4>{examples[selectedExample].subtitle}</h4>
+
+  <svelte:component this={examples[selectedExample].component}/>
 
 </main>
 
 <style>
 
-  div.header {
+  .header {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin-bottom: 1em;
+  }
+
+  .subheader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .select_example {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 
   main {
     padding: 1em;
-    max-width: 40em;
+    max-width: 48em;
     margin: 0 auto;
   }
 
@@ -36,31 +105,12 @@
     height: 2em;
   }
 
-  div.controls {
-    margin-top: 1em;
+  h4 {
+    margin-bottom: 1em;
   }
 
-  div.mirror {
-    margin-top: 1em;
-    white-space: pre-line;
-    overflow-wrap: break-spaces;
+  label {
+    margin: 0 0 0 1em;
   }
 
-  :global(.ui-editor) {
-    box-sizing: border-box;
-    background-color: transparent;
-    color: var(--ui-color-baseline);
-    padding: 1em;
-    border: 1px solid #efefef;
-    border-radius: .5em;
-    display: inline-block;
-    font: inherit;
-    text-rendering: optimizeLegibility;
-    white-space: pre-line;
-    overflow-wrap: break-spaces;
-    vertical-align: top;
-    width: 100%;
-    min-height: 1.25rem;
-    outline: none;
-  }
 </style>
