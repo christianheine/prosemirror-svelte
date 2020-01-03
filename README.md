@@ -99,13 +99,15 @@ The example app which is included in the repository can be also be found here: h
 
 ### Modifying editor state
 - **split** [(EditorState) -> EditorState]: splits the text at the current selection. If the selection is not collapsed, it will be split around it.
-- **selectText&& [(editorState: EditorState, from: number, to: number) => EditorState]: returns a new editor state with the the selection around from and to.
+- **selectText** [(editorState: EditorState, from: number, to: number) => EditorState]: returns a new editor state with the the selection around from and to.
 - **clear** [(EditorState) -> EditorState]: returns a new editor state where all content was removed.
 - **selectAll** [(EditorState) -> EditorState]: returns a new editor state with all text selected.
 - **deleteSelection** [(EditorState) -> EditorState]: returns a new editor state where the selection was deleted.
-- **replaceTextAtPosition** [(editorState, from, to, newText, setSelection = false) -> EditorState]: returns a new editor state where the text between "from" and "to" was replaced by a new one, optionally setting a selection for that inserted text.
-- **toggleMark** [(EditorState, MarkType, attrs) -> EditorState]: Toggle the mark of type MarkType for the current selection (or sets the stored marks if the selection is collapsed)
-- **toggleBold** [(EditorState) -> EditorState]: Specialized version of toggleMark to toggle the "strong" mark (more to come)
+- **replaceTextAtPosition** [(editorState: EditorState, from: Number, to: Number, newText: String, setSelection: Boolean = false) -> EditorState]: returns a new editor state where the text between "from" and "to" was replaced by a new one, optionally setting a selection for that inserted text.
+- **toggleMark** [(editorState: EditorState, type: String, attrs) -> EditorState]: Toggle the mark of the given type for the current selection (or sets the stored marks if the selection is collapsed)
+- **toggleBold** [(EditorState) -> EditorState]: Specialized version of toggleMark to toggle the "strong" mark
+- **toggleItalic** [(EditorState) -> EditorState]: Specialized version of toggleMark to toggle the "em" mark
+- **setBlockType** [(editorState: EditorState, type: String, attrs: Object) -> EditorState]: Set the block type for the current selection
 
 ## General helpers
 ```JS

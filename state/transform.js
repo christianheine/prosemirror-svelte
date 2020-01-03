@@ -1,5 +1,5 @@
 import { EditorState, TextSelection, AllSelection } from "prosemirror-state";
-import { MarkType } from "prosemirror-model";
+import { MarkType, NodeType } from "prosemirror-model";
 import * as commands from "prosemirror-commands";
 import { richTextSchema } from "./schemas"
 
@@ -97,24 +97,51 @@ export const replaceTextAtPosition = (editorState, from, to, newText, setSelecti
 /**
  * Toggle the Mark for the given editor state
  * @param editorState {EditorState}
- * @param type {MarkType}
+ * @param type {String}
  * @param attrs {Object}
  * @returns {EditorState}
  */
-export const toggleMark = (editorState, type, attrs) => {
+export const toggleMark = (editorState, type, attrs = null) => {
   let newEditorState;
   
+  const markType = editorState.schema.marks[type]
   const dispatch = tr => newEditorState = editorState.apply(tr);
-
-  if (commands.toggleMark(type, attrs)(editorState, dispatch)) return newEditorState;
+  
+  if (commands.toggleMark(markType, attrs)(editorState, dispatch)) return newEditorState;
   else return editorState;
 }
 
 /**
- * Toggle the bold Mark for the given editor state
+ * Toggle the bold (strong) Mark for the given editor state
  * @param editorState {EditorState}
  * @returns {EditorState}
  */
 export const toggleBold = (editorState) => {
-  return toggleMark(editorState, richTextSchema.marks.strong, null)
+  return toggleMark(editorState, 'strong', null)
+}
+
+/**
+ * Toggle the italic (em) Mark for the given editor state
+ * @param editorState {EditorState}
+ * @returns {EditorState}
+ */
+export const toggleItalic = (editorState) => {
+  return toggleMark(editorState, 'em', null)
+}
+
+/**
+ * Set the block type for the given editor state
+ * @param editorState {EditorState}
+ * @param type {String}
+ * @param attrs {Object}
+ * @returns {EditorState}
+ */
+export const setBlockType = (editorState, type, attrs) => {
+  let newEditorState;
+  
+  const nodeType = editorState.schema.nodes[type]
+  const dispatch = tr => newEditorState = editorState.apply(tr);
+  
+  if (commands.setBlockType(nodeType, attrs)(editorState, dispatch)) return newEditorState;
+  else return editorState;
 }

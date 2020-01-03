@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import ProsemirrorEditor from "../../../ProsemirrorEditor.svelte";
-  import { createRichTextEditor, toJSON, clear, toggleBold } from "../../../state";
+  import { createRichTextEditor, toJSON, clear, toggleMark, setBlockType } from "../../../state";
   import { getCurrentMarks, getNodeTypeAtSelectionHead } from "../../../helpers";
 
   const html = "<h3>Welcome to Prosemirror Svelte</h3><p>Feel free to <b>edit me</b>!</p>";
@@ -28,18 +28,34 @@
   }
 
   function handleToggleBold(event) {
-    editorState = toggleBold(editorState);
+    editorState = toggleMark(editorState, 'strong');
+  }
+
+  function handleSetBlockType(type, attrs = null) {
+    return function (event) {
+      editorState = setBlockType(editorState, type, attrs)
+    }
   }
 
   function preventDefault(event) {
     event.preventDefault();
   }
 
+  function getBlockType(node) {
+    if(!node) return null
+
+    if(node.attrs && typeof node.attrs.level !== 'undefined' &&  node.attrs.level !== null) {
+        return `${node.type.name}-${node.attrs.level}`
+    } else {
+      return node.type.name
+    }
+  }
+
   $: currentMarks = editorState ? getCurrentMarks(editorState) : null
   $: activeMarks = currentMarks ? Object.keys(currentMarks.activeMarks) : []
   $: nodeAtSelectionHead = editorState ? getNodeTypeAtSelectionHead(editorState) : {}
-
-  $: isBold = currentMarks && currentMarks.activeMarks && currentMarks.activeMarks['strong']
+  $: activeBlockType = getBlockType(nodeAtSelectionHead)
+  $: isBold = currentMarks && currentMarks.activeMarks && currentMarks.activeMarks.strong
 
   onMount(() => focusEditor());
 
@@ -58,6 +74,24 @@
   <button style="margin-left: .5em" on:click={handleToggleBold} on:mousedown={preventDefault}>
       {#if isBold}Too bold for me{:else}Make it bold{/if}
   </button>
+
+  <button style="margin-left: .5em"
+          disabled={activeBlockType==='paragraph'}
+          on:click={handleSetBlockType('paragraph')}
+          on:mousedown={preventDefault}>p</button>
+
+  <button disabled={activeBlockType==='heading-1'}
+          on:click={handleSetBlockType('heading', {level:1})}
+          on:mousedown={preventDefault}>h1</button>
+
+  <button disabled={activeBlockType==='heading-2'}
+          on:click={handleSetBlockType('heading', {level:2})}
+          on:mousedown={preventDefault}>h2</button>
+
+  <button disabled={activeBlockType==='heading-3'}
+          on:click={handleSetBlockType('heading', {level:3})}
+          on:mousedown={preventDefault}>h3</button>
+
 </div>
 
 <div class="controls">
@@ -69,11 +103,9 @@
     <!-- Show which marks are currently active, e.g. to highlight a menu button -->
     <li><b>Active marks: </b>{activeMarks && activeMarks.length ? activeMarks.toString() : 'none'}</li>
 
-    <!-- Show which node is currently active at the selection head, e.g. to highlight a menu button menu -->
+    <!-- Show which type of node is currently active at the selection head, e.g. to highlight a menu button menu -->
     <li>
-      <b>Type of node at selection head:</b>
-        {nodeAtSelectionHead.type.name}
-        {nodeAtSelectionHead.attrs && nodeAtSelectionHead.attrs.level ? nodeAtSelectionHead.attrs.level: ''}
+      <b>Type of node at selection head:</b> {activeBlockType}
     </li>
 
   </ul>

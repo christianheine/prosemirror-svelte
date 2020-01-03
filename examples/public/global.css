@@ -97,10 +97,6 @@ button {
   padding: .25em .5em;
 }
 
-button:disabled {
-  color: #999;
-}
-
 button:not(:disabled):active {
 }
 
@@ -111,6 +107,12 @@ button:hover {
 
 button:focus {
   color: white;
+}
+
+button:disabled {
+  color: #adadad;
+  background-color: #777;
+  cursor: auto;
 }
 
 button.editor {
