@@ -4,6 +4,8 @@
   import RichTextEditor_101 from "./components/RichTextEditor_101.svelte";
   import RichTextEditor_102 from "./components/RichTextEditor_102.svelte";
   import RichTextEditor_103 from "./components/RichTextEditor_103.svelte";
+  import RichTextEditor_104 from "./components/RichTextEditor_104.svelte";
+
   import ProsemirrorLogo from "./components/ProsemirrorLogo.svelte"
   import SvelteLogo from "./components/SvelteLogo.svelte"
 
@@ -33,6 +35,12 @@
       title: 'Rich text 103: JSON serialization',
       subtitle: "Serializing to and from JSON (and saving your state to local storage, just for fun).",
       component: RichTextEditor_103
+    },
+    "richtext_104": {
+      name: "#5: Plugins",
+      title: 'Rich text 104: Plugins',
+      subtitle: "Very basic example of how to add Prosemirror plugins to the editor",
+      component: RichTextEditor_104
     },
   }
 
