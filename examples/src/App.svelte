@@ -5,6 +5,7 @@
   import RichTextEditor_102 from "./components/RichTextEditor_102.svelte";
   import RichTextEditor_103 from "./components/RichTextEditor_103.svelte";
   import RichTextEditor_104 from "./components/RichTextEditor_104.svelte";
+  import RichTextEditor_105 from "./components/RichTextEditor_105.svelte";
 
   import ProsemirrorLogo from "./components/ProsemirrorLogo.svelte"
   import SvelteLogo from "./components/SvelteLogo.svelte"
@@ -41,6 +42,12 @@
       title: 'Rich text 104: Plugins',
       subtitle: "Very basic example of how to add Prosemirror plugins to the editor",
       component: RichTextEditor_104
+    },
+    "richtext_105": {
+      name: "#6: Images",
+      title: 'Rich text 105: Insert images',
+      subtitle: "How to add images to the editor",
+      component: RichTextEditor_105
     },
   }
 
