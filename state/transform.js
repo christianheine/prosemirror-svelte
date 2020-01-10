@@ -1,7 +1,5 @@
-import { EditorState, TextSelection, AllSelection } from "prosemirror-state";
-import { MarkType, NodeType } from "prosemirror-model";
+import {EditorState, TextSelection, AllSelection} from "prosemirror-state";
 import * as commands from "prosemirror-commands";
-import { richTextSchema } from "./schemas"
 
 /**
  * Basic implementation to split the editor state at the current selection
@@ -10,17 +8,16 @@ import { richTextSchema } from "./schemas"
  */
 export const split = editorState => {
   const transaction = editorState.tr;
-  
+
   transaction.split(editorState.selection.from);
-  
+
   // if text is selected split before and after the text
   if (!editorState.selection.empty) {
     transaction.split(transaction.mapping.map(editorState.selection.to));
   }
-  
-  return editorState.apply(transaction);
-}
 
+  return editorState.apply(transaction);
+};
 
 /**
  * Apply a selection to the editor state
@@ -33,7 +30,7 @@ export const selectText = (editorState, from, to) => {
   const transaction = editorState.tr;
   transaction.setSelection(selection);
   return editorState.apply(transaction);
-}
+};
 
 /**
  * Clear the given editor state (keeping the history)
@@ -46,7 +43,7 @@ export const clear = (editorState) => {
   transaction.setSelection(selection);
   transaction.deleteSelection().scrollIntoView();
   return editorState.apply(transaction);
-}
+};
 
 /**
  * Select all content of the given editor state
@@ -58,7 +55,7 @@ export const selectAll = (editorState) => {
   const transaction = editorState.tr;
   transaction.setSelection(selection);
   return editorState.apply(transaction);
-}
+};
 
 /**
  * Delete the current selection
@@ -70,7 +67,7 @@ export const deleteSelection = (editorState) => {
   const transaction = editorState.tr;
   transaction.deleteSelection().scrollIntoView();
   return editorState.apply(transaction);
-}
+};
 
 /**
  * Replace text at the given positions with a new text
@@ -83,16 +80,16 @@ export const deleteSelection = (editorState) => {
  */
 export const replaceTextAtPosition = (editorState, from, to, newText, setSelection = false) => {
   const transaction = editorState.tr;
-  
+
   transaction.replaceWith(from, to, editorState.schema.text(newText));
-  
+
   if (setSelection) {
     const selection = TextSelection.create(transaction.doc, from, from + newText.length);
     transaction.setSelection(selection);
   }
-  
+
   return editorState.apply(transaction);
-}
+};
 
 /**
  * Toggle the Mark for the given editor state
@@ -103,13 +100,13 @@ export const replaceTextAtPosition = (editorState, from, to, newText, setSelecti
  */
 export const toggleMark = (editorState, type, attrs = null) => {
   let newEditorState;
-  
-  const markType = editorState.schema.marks[type]
+
+  const markType = editorState.schema.marks[type];
   const dispatch = tr => newEditorState = editorState.apply(tr);
-  
+
   if (commands.toggleMark(markType, attrs)(editorState, dispatch)) return newEditorState;
   else return editorState;
-}
+};
 
 /**
  * Toggle the bold (strong) Mark for the given editor state
@@ -117,8 +114,8 @@ export const toggleMark = (editorState, type, attrs = null) => {
  * @returns {EditorState}
  */
 export const toggleBold = (editorState) => {
-  return toggleMark(editorState, 'strong', null)
-}
+  return toggleMark(editorState, "strong", null);
+};
 
 /**
  * Toggle the italic (em) Mark for the given editor state
@@ -126,8 +123,8 @@ export const toggleBold = (editorState) => {
  * @returns {EditorState}
  */
 export const toggleItalic = (editorState) => {
-  return toggleMark(editorState, 'em', null)
-}
+  return toggleMark(editorState, "em", null);
+};
 
 /**
  * Set the block type for the given editor state
@@ -138,10 +135,31 @@ export const toggleItalic = (editorState) => {
  */
 export const setBlockType = (editorState, type, attrs) => {
   let newEditorState;
-  
-  const nodeType = editorState.schema.nodes[type]
+
+  const nodeType = editorState.schema.nodes[type];
   const dispatch = tr => newEditorState = editorState.apply(tr);
-  
+
   if (commands.setBlockType(nodeType, attrs)(editorState, dispatch)) return newEditorState;
   else return editorState;
-}
+};
+
+/**
+ *
+ * @param editorState {EditorState}
+ * @param attrs {Object}
+ * @param from {number|null}
+ * @param to {number|null}
+ * @returns {EditorState}
+ */
+export const insertImage = (editorState, attrs, from = null, to = null) => {
+
+  if (from === null) from = editorState.selection.anchor;
+  if (to === null) to = editorState.selection.head;
+
+  const imageNode = editorState.schema.nodes.image.create(attrs);
+
+  const transaction = editorState.tr;
+  transaction.replaceWith(from, to, imageNode);
+
+  return editorState.apply(transaction);
+};
