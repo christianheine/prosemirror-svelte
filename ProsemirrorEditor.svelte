@@ -26,6 +26,9 @@
    *  @type HTMLDivElement */
   export let editor = null
 
+  /** Initial EditorView props */
+  export let editorViewProps = {}
+
   /** Focus the content-editable div */
   export function focus() {
     view && view.focus()
@@ -72,6 +75,7 @@
 
   onMount(() => {
     view = new EditorView({mount: editor}, {
+        ...editorViewProps,
       state: editorState,
       dispatchTransaction: (transaction) => {
         editorState = view.state.apply(transaction)
