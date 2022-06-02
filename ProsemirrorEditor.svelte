@@ -100,7 +100,7 @@
   })
 
   onDestroy(() => {
-    view.destroy()
+    view && view.destroy()
   })
 
 </script>
